@@ -1,0 +1,38 @@
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+<title>Register</title>
+<meta http-equiv = "Content-Type" content="text/html";charset="UTF-8"/>
+
+</head>
+<body>
+	<div>
+		<label style="font-size: 18px" th:text="'创建用户'"></label>
+	</div>
+	<form th:action="@{/save}" method="post" th:object ="${users}" style="width:600px">
+		<fieldset>
+			<p>
+			<label style="font-size: 18px" th:text="'用户名: '"></label><input type="text" id="$username" name="username" tabindex="1" th:field="*{username}"></input>
+			<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/>
+			</p>
+			<p>
+			<label style="font-size: 18px" th:text="'姓名: '"></label><input type="text" id="$name" name="name" tabindex="2" th:field="*{name}"></input>
+			<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+			</p>
+			<p>
+			<label style="font-size: 18px" th:text="'密码: '"></label><input type="text" id="password" name="password" tabindex="3" th:field="*{password}"></input>
+			<td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
+			</p>
+			<label style="font-size: 18px" th:text="'确认密码: '"></label><input type="text" id="password2" name="password2" tabindex="4"></input>
+			</p>
+			<p>
+			<label style="font-size: 18px" th:text="'用户权限（1-5）: '"></label><input type="number" id="adminlevel" name="adminlevel" tabindex="5" th:field="*{adminlevel}"></input>
+			<td th:if="${#fields.hasErrors('adminlevel')}" th:errors="*{adminlevel}"/>
+			</p>
+			<p id="buttons">
+			<input id="submit" type="submit" tabindex="6" value="创建"></input>
+			<input id="reset" type="reset" tabindex="7" value="取消"></input>
+			</p>
+	</fieldset>
+	</form>
+</body>
+</html>

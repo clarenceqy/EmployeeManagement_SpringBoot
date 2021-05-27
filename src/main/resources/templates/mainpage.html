@@ -1,0 +1,167 @@
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+<title>Main</title>
+<meta http-equiv = "Content-Type" content="text/html";charset="UTF-8"/>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<form>
+<label style="font-size: 18px">创建新的排班</label></br>
+<input type="button" value="添加" onclick="alertWin('创建新排班','',400,300);" /></br>
+<label style="font-size: 18px">查看/编辑排班</label></br>
+<input type="button" value="进入" onclick="showschedule();" />
+</form>
+<script language="javascript" type="text/javascript">
+		function showschedule(){
+			window.location.href="/checkschedule";
+		}
+        function alertWin(title, msg, w, h) {
+             
+            var titleheight = "22px"; // 窗口标题高度
+            var bordercolor = "#666699"; //窗口的边框颜色
+            var titlecolor = "#FFFFFF"; // 窗口的标题颜色
+            var titlebgcolor = "#666699"; // 窗口的标题背景色
+            var bgcolor = "#FFFFFF"; // 内容背景色
+            var iWidth = document.documentElement.clientWidth; //这个窗口的宽度
+            var iHeight = document.documentElement.clientHeight; //这个窗口的高度
+ 
+            //背景层的格式
+            var bgObj = document.createElement("div");
+            
+            bgObj.style.cssText = "position:absolute;left:0px;top:0px;width:" + iWidth + "px;height:" + Math.max(document.body.clientHeight, iHeight) + "px;filter:Alpha(Opacity=30);opacity:0.3;background-color:#000000;z-index:1000;";
+            
+            document.body.appendChild(bgObj);
+            
+            var iframe2 = document.createElement("iframe");
+            iframe2.style.cssText = "position:absolute; top:0px;filter:Alpha(Opacity=30);opacity:0.3;background-color:#000000; z-index:1001; border-style:none; border-width:0px; border:0px;width:" + iWidth + "px;height:" + iHeight + "px";
+            bgObj.appendChild(iframe2);
+           
+            //创建一个弹出层
+            var msgObj = document.createElement("div");
+            //设置弹出的层的样式
+            msgObj.style.cssText = "position:absolute;font:11px '宋体';top:" + (iHeight - h) / 2 + "px;left:" + (iWidth - w) / 2 + "px;width:" + w + "px;height:" + h + "px;text-align:center;border:1px solid " + bordercolor + ";background-color:" + bgcolor + ";padding:1px;line-height:22px;z-index:1001;";
+            document.body.appendChild(msgObj);
+            //创建一个table用于容纳层上的内容
+            var table = document.createElement("table");
+            //将Table放到弹出层上
+            msgObj.appendChild(table);
+            //设置table的格式
+            table.style.cssText = "margin:0px;border:0px;padding:0px;";
+            table.cellSpacing = 0;
+            //插入一行用于显示标题
+            var tr = table.insertRow(-1);
+            //插入一个单元格用于容纳标题
+            var titleBar = tr.insertCell(-1);
+            titleBar.style.cssText = "width:100%;height:" + titleheight + "px;text-align:left;padding:3px;margin:0px;font:bold 13px '宋体';color:" + titlecolor + ";border:1px solid " + bordercolor + ";cursor:move;background-color:" + titlebgcolor;
+            titleBar.style.paddingLeft = "10px";
+            //设置标题
+            titleBar.innerHTML = title;
+            //设置曾德拖动事件
+            var moveX = 0;
+            var moveY = 0;
+            var moveTop = 0;
+            var moveLeft = 0;
+            var moveable = false;
+            var docMouseMoveEvent = document.onmousemove;
+            var docMouseUpEvent = document.onmouseup;
+            //鼠标点击标题
+            titleBar.onmousedown = function() {
+                var evt = getEvent();
+                moveable = true;
+                moveX = evt.clientX;
+                moveY = evt.clientY;
+                moveTop = parseInt(msgObj.style.top);
+                moveLeft = parseInt(msgObj.style.left);
+                //鼠标拖动
+                document.onmousemove = function() {
+                    if (moveable) {
+                        var evt = getEvent();
+                        var x = moveLeft + evt.clientX - moveX;
+                        var y = moveTop + evt.clientY - moveY;
+                        if (x > 0 && (x + w < iWidth) && y > 0 && (y + h < iHeight)) {
+                            msgObj.style.left = x + "px";
+                            msgObj.style.top = y + "px";
+                        }
+                    }
+                };
+                document.onmouseup = function() {
+                    if (moveable) {
+                        document.onmousemove = docMouseMoveEvent;
+                        document.onmouseup = docMouseUpEvent;
+                        moveable = false;
+                        moveX = 0;
+                        moveY = 0;
+                        moveTop = 0;
+                        moveLeft = 0;
+                    }
+                };
+            }
+            
+            
+            //关闭按钮事件
+            var closeBtn = tr.insertCell(-1);
+            closeBtn.style.cssText = "cursor:pointer; text-align:right;padding:2px;background-color:" + titlebgcolor;
+            closeBtn.innerHTML = "<span style='font-size:15pt;color:" + titlecolor + ";'>×</span>";
+            closeBtn.onclick = function() {
+                document.body.removeChild(bgObj);
+                document.body.removeChild(msgObj);
+            }
+             
+            //弹出的消息窗口内容
+            var msgBox = table.insertRow(-1).insertCell(-1);
+            msgBox.style.cssText = "font:10pt '宋体';";
+            msgBox.colSpan = 2;
+            msgBox.innerHTML = msg;
+            //层上模板名称的内容
+            var nameBox = table.insertRow(-1);
+            var nameLable = nameBox.insertCell(-1);
+            nameLable.style.cssText = "font:12pt '宋体';text-align:center;";
+            nameLable.innerHTML = "<br/>输入员工姓名：<br/>";
+            var nametext = nameBox.insertCell(-1);
+            nametext.style.cssText = "font:12pt '宋体';text-align:Left; margin-left:0px";
+            nametext.innerHTML = "<br/><input type='text' value='' id='namestrinput'/>   <br/>";
+			
+            var yearBox = table.insertRow(-1);
+            var yearLable = yearBox.insertCell(-1);
+			yearLable.style.cssText = "font:12pt '宋体';text-align:center;";
+            yearLable.innerHTML = "<br/>年份（数字）：<br/>";
+            var yeartext = yearBox.insertCell(-1);
+            yeartext.style.cssText = "font:12pt '宋体';text-align:Left; margin-left:0px";
+            yeartext.innerHTML = "<br/><input type='text' value='' id='yearstrinput'/>   <br/>";
+            
+			var monthBox = table.insertRow(-1);
+            var monthLable = monthBox.insertCell(-1);
+			monthLable.style.cssText = "font:12pt '宋体';text-align:center;";
+            monthLable.innerHTML = "<br/>月份（数字）：<br/>";
+            var monthtext = monthBox.insertCell(-1);
+            monthtext.style.cssText = "font:12pt '宋体';text-align:Left; margin-left:0px";
+            monthtext.innerHTML = "<br/><input type='text' value='' id='monthstrinput'/>   <br/>";
+            
+            
+            //层上动作按钮的内容
+            var submitBox = table.insertRow(-1);
+            var submitBtn = submitBox.insertCell(-1);
+            submitBtn.style.cssText = "text-align:center;";
+            submitBtn.colSpan = 2;
+            submitBtn.innerHTML = "<br/><input type='Button' value='确 定' id='saveHeader'onclick='return onConfirm();' /><br/>";
+            function getEvent() {
+                return window.event || arguments.callee.caller.arguments[0];
+            }
+            
+        }
+        function onConfirm(){
+        	//$.post( "/createschedule", { name: "John", time: "2pm" } );
+        	var reg_year=/^2[0-9]{3}$/;
+        	var reg_month=/^[1-9]|1[0-2]$/;
+        	var name = document.getElementById("namestrinput").value;
+        	var year = document.getElementById("yearstrinput").value;
+        	var month = document.getElementById("monthstrinput").value;
+        	if(reg_year.test(year) == false){
+        		alert("年份输入错误");
+        	}else if(reg_month.test(month) == false){
+        		alert("月份输入错误");
+        	}else{window.location.href="/createschedule?name="+name+"&year="+year+"&month="+month;}
+        	
+        }
+    </script>
+
+</head>
+</html>

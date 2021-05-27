@@ -1,0 +1,9 @@
+/* screen - login */
+
+.login {
+  background-color: rgba(255,255,255,1.0);
+  height: 1024px;
+  overflow-x: hidden;
+  position: relative;
+  width: 1024px;
+}

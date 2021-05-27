@@ -1,0 +1,136 @@
+<html xmlns: th="http://thymeleaf.org">
+<head>
+<style>
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-left: 1px solid #888;
+	border-top: 1px solid #888;
+	background: #efefef;
+}
+th,td{
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
+	padding: 5px 15px;
+}
+th{
+	font-weight: bold;
+	background: #ccc;
+}
+</style>
+<title>New</title>
+<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script th:inline="javascript">
+	var tableNode;
+	var year;
+	var month;
+	var col;
+	window.onload = function(){
+		createTable();
+	};
+	function createTable(){
+		var yearstr = /*[[${year}]]*/ '2021';
+		year = Number(yearstr);
+		var monthstr = /*[[${month}]]*/ '1';
+		month = Number(monthstr);
+		col = 31;
+		tableNode=document.createElement("table");
+		tableNode.setAttribute("id","table");
+		
+		switch(month){
+			case 1:
+				col = 31;
+				break;
+			case 2:
+				col = 29;
+				break;
+			case 3:
+				col = 31;
+				break;
+			case 4:
+				col = 30;
+				break;
+			case 5:
+				col = 31;
+				break;
+			case 6:
+				col = 30;
+				break;
+			case 7:
+				col = 31;
+				break;
+			case 8:
+				col = 31;
+				break;
+			case 9:
+				col = 30;
+				break;
+			case 10:
+				col = 31;
+				break;
+			case 11:
+				col = 30;
+				break;
+			case 12:
+				col = 31;
+		}
+		var d = new Date();
+		d.setFullYear(year,month-1,1);
+		//var d = new Date(a.getFullYear(),month-1,1);
+		var c = d.getDay();
+		var dayarr = ["周日","周一","周二","周三","周四","周五","周六"];
+		var timeslot = ["00:00-\n7:00","7:00-\n7:30","7:30-\n8:00","8:00-\n8:30","8:30-\n9:00","9:00-\n9:30",
+						"9:30-\n10:00","10:00-\n10:30","10:30-\n11:00","11:00-\n11:30","11:30-\n12:00",
+						"12:00-\n12:30","12:30-\n13:00","13:00-\n13:30","13:30-\n14:00","14:00-\n14:30",
+						"14:30-\n15:00","15:00-\n15:30","15:30-\n16:00","16:00-\n16:30","16:30-\n17:00",
+						"17:00-\n17:30","17:30-\n18:00","18:00-\n23:59"];
+		for(var x=0;x<25;x++){
+			var trNode=tableNode.insertRow(); 
+			for(var y=0;y<col+1;y++){ 
+			   var tdNode=trNode.insertCell();
+			   tdNode.innerHTML="/";
+			   tdNode.contentEditable = "true";
+			   } 
+			}
+		for(var x=1;x<col+1;x++){
+			tableNode.rows[0].cells[x].innerText = x+"\n"+dayarr[(c+x-1)%7];
+			tableNode.rows[0].cells[x].contentEditable = "false";
+		}
+		for(var x=1;x<25;x++){
+			tableNode.rows[x].cells[0].innerText = timeslot[x-1];
+			tableNode.rows[x].cells[0].contentEditable = "false";
+		}
+		tableNode.rows[0].cells[0].innerText = "排班";
+		tableNode.rows[0].cells[0].contentEditable = "false";
+		document.getElementById("div1").appendChild(tableNode);
+		}
+	function saveSchedule(){
+		var table = document.getElementById("table");
+		var opt = new Array();
+		var title = document.getElementById("title").value;
+		for(var x=1;x<25;x++){
+			for(var y=1;y<col+1;y++){
+				opt.push(table.rows[x].cells[y].innerHTML);
+			}
+		}
+		$.post("/saveschedule",{array : JSON.stringify(opt), title : title, year : year, month : month},function(data,status){
+	        //alert("Data: " + data + "nStatus: " + status);
+	        alert("添加成功");
+	    });
+		window.location.href="/mainpage";
+	}
+</script>
+</head>
+<body>
+
+<div id="div1">
+	<input style="font-size: 25px" type="text" id = "title" name="title" th:value = "${name}"></input>
+	<p id="buttons">
+		<input id="submit" type="submit" value="添加" onclick="saveSchedule()"></input>
+		<input id="reset" type="reset" value="取消"></input>
+	</p>	
+</div> 
+</body>
+
+</html>

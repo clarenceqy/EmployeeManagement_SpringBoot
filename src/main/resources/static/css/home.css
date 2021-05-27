@@ -1,0 +1,60 @@
+/* screen - home */
+
+.home {
+  background-color: rgba(109,203,86,1.0);
+  height: 1024px;
+  overflow-x: hidden;
+  position: relative;
+  width: 1024px;
+}
+.home .rectangle-C61RwL {
+  background-color: transparent;
+  height: 693px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 1024px;
+}
+.home .rectangle-VMr6Om {
+  background: linear-gradient(180deg, #FCDB00 0%, #F7B500 100%);
+  background-color: transparent;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 47px;
+  height: 94px;
+  left: 155px;
+  position: absolute;
+  top: 733px;
+  width: 654px;
+}
+.home .textlabel-C61RwL {
+  background-color: transparent;
+  color: rgba(0,0,0,1.0);
+  font-family: "PingFangSC-Medium", Helvetica, Arial, serif;
+  font-size: 30px;
+  font-weight: 500;
+  height: auto;
+  left: 440px;
+  letter-spacing: 0.00px;
+  line-height: 42px;
+  position: absolute;
+  text-align: left;
+  top: 759px;
+  white-space: nowrap;
+  width: auto;
+}
+.home .textlabel-VMr6Om {
+  background-color: transparent;
+  color: rgba(0,0,0,1.0);
+  font-family: "PingFangSC-Regular", Helvetica, Arial, serif;
+  font-size: 12px;
+  font-weight: 400;
+  height: auto;
+  left: 428px;
+  letter-spacing: 0.00px;
+  line-height: 17px;
+  position: absolute;
+  text-align: left;
+  top: 713px;
+  white-space: nowrap;
+  width: auto;
+}

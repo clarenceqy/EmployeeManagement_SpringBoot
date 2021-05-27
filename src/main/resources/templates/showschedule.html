@@ -1,0 +1,54 @@
+<html xmlns: th="http://thymeleaf.org">
+<head>
+<style>
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-left: 1px solid #888;
+	border-top: 1px solid #888;
+	background: #efefef;
+}
+th,td{
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
+	padding: 5px 15px;
+}
+th{
+	font-weight: bold;
+	background: #ccc;
+}
+</style>
+<title>Schedule List</title>
+<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script th:inline="javascript">
+	function checkedit(title,uuid,year,month){
+		window.location.href="/showedit?title="+title+"&uuid="+uuid+"&year="+year+"&month="+month;
+	}
+</script>
+</head>
+<body>
+	<div style ="width:600px">
+		<label style ="font-size:18px" th:text="'排班列表： '"></label>
+	</div>
+	<div style = "width: 600px">
+		<table style="width:100%">
+			<tr>
+				<td>标题</td>
+				<td>年份</td>
+				<td>月份</td>
+				<td>创建时间</td>
+				<td>创建者</td>
+			</tr>
+			<tr th:each="schedule:${list}">
+				<td th:text="${schedule.title}" th:onclick="checkedit([[${schedule.title}]],[[${schedule.uuid}]],[[${schedule.year}]],[[${schedule.month}]]);"></td>
+				<td th:text="${schedule.year}"></td>
+				<td th:text="${schedule.month}"></td>
+				<td th:text="${schedule.timestamp}"></td>
+				<td th:text="${schedule.creatorname}"></td>
+			</tr>
+		</table>
+	</div>
+	<label style="font-size: 18px;display: block" th:text="${info}"></label>
+</body>
+</html>

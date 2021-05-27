@@ -1,0 +1,24 @@
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+<title>Login</title>
+<meta http-equiv = "Content-Type" content="text/html";charset="UTF-8"/>
+</head>
+<body>
+	<div>
+		<label style="font-size: 18px" th:text="'登录'"></label>
+	</div>
+	<form action="/dologin" method="post" style="width:600px">
+		<fieldset>
+			<p>
+			<label style="font-size: 18px" th:text="'用户名: '"></label><input type = "text" id="username" name="username" tabindex="1" ></input>
+			</p>
+			<p>
+			<label style="font-size: 18px" th:text="'密码: '"></label><input type="password" name="password" tabindex="2"></input>
+			<p id="buttons">
+			<input id="submit" type="submit" tabindex="3" value="登录"></input>
+			<input id="reset" type="reset" tabindex="4" value="取消"></input>
+			</p>
+	</fieldset>
+	</form>
+</body>
+</html>

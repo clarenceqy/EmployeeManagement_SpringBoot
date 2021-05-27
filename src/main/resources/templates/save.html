@@ -1,0 +1,44 @@
+<html xmlns: th="http://thymeleaf.org">
+<head>
+<style>
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-left: 1px solid #888;
+	border-top: 1px solid #888;
+	background: #efefef;
+}
+th,td{
+	border-right: 1px solid #888;
+	border-bottom: 1px solid #888;
+	padding: 5px 15px;
+}
+th{
+	font-weight: bold;
+	background: #ccc;
+}
+</style>
+<title>welcome spring boot</title>
+<meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8"/>
+</head>
+<body>
+	<div style ="width:600px">
+		<label style ="font-size:18px" th:text="'用户列表： '"></label>
+	</div>
+	<div style = "width: 600px">
+		<table style="width:100%">
+			<tr>
+				<td>编号</td>
+				<td>用户名</td>
+				<td>姓名</td>
+			</tr>
+			<tr th:each="user:${list}">
+				<td th:text="${user.id}"></td>
+				<td th:text="${user.username}"></td>
+				<td th:text="${user.name}"></td>
+			</tr>
+		</table>
+	</div>
+	<label style="font-size: 18px;display: block" th:text="${info}"></label>
+</body>
+</html>
